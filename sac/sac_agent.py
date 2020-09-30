@@ -147,7 +147,8 @@ class Agent():
 
         policy_loss, entropies = self.update_policy(experinces2)
         entropy_loss = self.entropy_loss(entropies)
-
+        self.writer.add_scalar( 'policy', policy_loss.detach().item(), self.total_steps)
+        self.writer.add_scalar('entropy', entropy_loss.detach().item(), self.total_steps)
 
 
         self.update_params(self.q1_optim, q1_loss)

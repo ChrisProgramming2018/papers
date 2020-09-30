@@ -64,6 +64,20 @@ def dqn(agent, writer, n_episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.01,
     return scores
 
 
+
+def eval(env, agent):
+    score = 0
+    for t in range(max_t):
+        action = agent.act_greedy(state)
+        next_state, reward, done, _ = env.step(action)
+        state = next_state
+        score += reward
+        if done:
+            break
+    print("Eval reward {}".format(score)
+
+
+
 seed = 1
 agent = Agent(state_size=8, action_size=4, seed=seed)
 tensorboard_name = "DQN" + '/runs/' + "DQN-" + str(seed)
