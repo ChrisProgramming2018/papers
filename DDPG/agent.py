@@ -32,6 +32,7 @@ class DDPGAgent():
         self.eval = config["eval"]
         torch.manual_seed(self.seed)
         np.random.seed(self.seed)
+        self.vid_path = config["vid_path"]
         print("actions size ", action_size)
         print("actions min ", self.min_action)
         print("actions max ", self.max_action)
@@ -49,7 +50,7 @@ class DDPGAgent():
         self.episodes = config["episodes"]
         self.memory = ReplayBuffer((state_size, ), (action_size, ), config["buffer_size"], self.device)
         pathname = config["seed"]
-        tensorboard_name = str(config["locexp"]) + '/runs/' + str(pathname)
+        tensorboard_name = str(config["res_path"]) + '/runs/' + str(pathname)
         self.writer = SummaryWriter(tensorboard_name)
         self.steps= 0
 
@@ -74,7 +75,7 @@ class DDPGAgent():
         scores_window = deque(maxlen=100)
         s = 0
         t0 = time.time()
-        for i_epiosde in range(1, self.episodes):
+        for i_epiosde in range(self.episodes):
             episode_reward = 0
             state = env.reset()
             self.noise.reset()
@@ -135,7 +136,7 @@ class DDPGAgent():
 
     def eval_policy(self, eval_episodes=4):
         env = gym.make("LunarLanderContinuous-v2")
-        env  = wrappers.Monitor(env, "./vid/{}".format(self.steps), video_callable=lambda episode_id: True,force=True)
+        env  = wrappers.Monitor(env, str(self.vid_path) + "/{}".format(self.steps), video_callable=lambda episode_id: True,force=True)
         average_reward = 0
         scores_window = deque(maxlen=100)
         s = 0
