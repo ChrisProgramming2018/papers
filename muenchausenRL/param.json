@@ -1,0 +1,13 @@
+{
+  "env_name": "LunarLander-v2",
+  "locexp": "search_results",
+  "lr": 1e-3,
+  "tau": 1e-2,
+  "gamma": 0.99,
+  "seed": 3,
+  "fc1_units": 64,
+  "fc2_units": 64,
+  "batch_size": 64,
+  "train_freq": 1,
+  "device": "cuda"
+}
