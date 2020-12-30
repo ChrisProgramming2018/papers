@@ -2,7 +2,8 @@ import numpy as np
 import torch
 
 class ReplayBuffer:
-    def __init__(self, state_shape, action_size, capacity, device):
+    def __init__(self, state_shape, action_size, capacity, seed, device):
+        numpy.random.seed(seed=seed)¶
         self.state_size = state_shape
         self.action_size = action_size
         self.capacity = capacity

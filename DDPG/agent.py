@@ -18,6 +18,13 @@ from utils import OrnsteinUhlenbeckProcess, time_format
 
 class DDPGAgent():
     def __init__(self, action_size, state_size, config):
+        self.seed = config["seed"]
+        torch.manual_seed(self.seed)
+        numpy.random.seed(seed=self.seed)
+        random.seed(self.seed)
+        self.env = gym.make(self.env_name)
+        self.env.seed(self.seed)
+        self.env.action_space.seed(self.seed)
         self.action_size = action_size
         self.state_size = state_size
         self.min_action = config["min_action"]
@@ -50,7 +57,7 @@ class DDPGAgent():
         self.episodes = config["episodes"]
         self.memory = ReplayBuffer((state_size, ), (action_size, ), config["buffer_size"], self.device)
         pathname = config["seed"]
-        tensorboard_name = str(config["res_path"]) + '/runs/' + str(pathname)
+        tensorboard_name = str(config["res_path"]) + '/runs/'+ "DDPG" + str(pathname)
         self.writer = SummaryWriter(tensorboard_name)
         self.steps= 0
 
@@ -70,7 +77,6 @@ class DDPGAgent():
         return actions
     
     def train_agent(self):
-        env = gym.make("LunarLanderContinuous-v2")
         average_reward = 0
         scores_window = deque(maxlen=100)
         s = 0
@@ -82,7 +88,7 @@ class DDPGAgent():
             for t in range(self.max_timesteps):
                 s += 1
                 action = self.act(state)
-                next_state, reward, done, _ = env.step(action)
+                next_state, reward, done, _ = self.env.step(action)
                 episode_reward += reward
                 if i_epiosde > 10:
                     self.learn()
@@ -132,11 +138,8 @@ class DDPGAgent():
             target_parm.data.copy_(self.tau * param.data + (1 - self.tau) * target_parm.data)
 
 
-
-
     def eval_policy(self, eval_episodes=4):
-        env = gym.make("LunarLanderContinuous-v2")
-        env  = wrappers.Monitor(env, str(self.vid_path) + "/{}".format(self.steps), video_callable=lambda episode_id: True,force=True)
+        env  = wrappers.Monitor(self.env, str(self.vid_path) + "/{}".format(self.steps), video_callable=lambda episode_id: True,force=True)
         average_reward = 0
         scores_window = deque(maxlen=100)
         s = 0
