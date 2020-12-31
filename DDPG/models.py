@@ -3,11 +3,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-
 class QNetwork(nn.Module):
-    def __init__(self, state_size, action_size, fc_1, fc_2, leak=0.01):
-        self.leak = leak
+    def __init__(self, state_size, action_size, seed, fc_1=64, fc_2=64, leak=0.01):
         super(QNetwork, self).__init__()
+        self.leak = leak
+        self.seed = torch.manual_seed(seed)
         self.state_size = state_size
         self.action_size = action_size
         self.layer1 = nn.Linear(state_size + action_size, fc_1)
@@ -29,11 +29,10 @@ class QNetwork(nn.Module):
         return x3
 
 
-
-
 class Actor(nn.Module):
-    def __init__(self, state_size, action_size, fc_1=64, fc_2=64, leak=0.01):
+    def __init__(self, state_size, action_size, seed, fc_1=64, fc_2=64, leak=0.01):
         super(Actor, self).__init__()
+        self.seed = torch.manual_seed(seed)
         self.leak = leak
         self.state_size = state_size
         self.action_size = action_size
@@ -53,4 +52,3 @@ class Actor(nn.Module):
         x2 = F.relu(self.layer2(x1))
         x3 = torch.tanh(self.layer3(x2))
         return x3
-
