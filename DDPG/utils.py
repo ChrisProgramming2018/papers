@@ -1,21 +1,20 @@
 import numpy as np
 
 
-
 def time_format(sec):
-    """
-
+    """ Convertst seconds in time format h, m, sec
     Args:
-        param1():
+        param1(int):
     """
     hours = sec // 3600
     rem = sec - hours * 3600
     mins = rem // 60
     secs = rem - mins * 60
-    return hours, mins, round(secs,2)
+    return hours, mins, round(secs, 2)
+
 
 class OrnsteinUhlenbeckProcess:
-    def __init__(self, mu=np.zeros(0), sigma=0.2, theta=.15, dimension=1e-2, x0=None,num_steps=12000):
+    def __init__(self, mu=np.zeros(0), sigma=0.2, theta=.15, dimension=1e-2, x0=None, num_steps=12000):
         self.theta = theta
         self.mu = mu
         self.sigma = sigma
