@@ -6,7 +6,7 @@ from agent import DDPGAgent
 
 
 def main(args):
-    with open (args.param, "r") as f:
+    with open(args.param, "r") as f:
         config = json.load(f)
     config["locexp"] = args.locexp
     path = args.locexp
@@ -31,13 +31,9 @@ def main(args):
     agent.train_agent()
 
 
-
-
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--env-name', default="LunarLanderContinuous-v2", type=str, help='Name of a environment (set it to any Continous environment you want')
+    parser.add_argument('--env-name', default="LunarLanderContinuous-v2", type=str)
     parser.add_argument('--seed', default=0, type=int, help='Random seed')
     parser.add_argument('--locexp', type=str)
     parser.add_argument('--param', default="param.json", type=str)
