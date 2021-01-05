@@ -1,0 +1,21 @@
+{
+  "env_name": "LunarLanderContinuous-v2",
+  "locexp": "search_results",
+  "lr_critic": 1e-3,
+  "lr_actor": 1e-3,
+  "max_episodes_steps": 1000,
+  "tau": 5e-3,
+  "gamma": 0.99,
+  "seed": 3,
+  "episodes": 1000,
+  "buffer_size": 1000000,
+  "eval": 100,
+  "fc1_units": 400,
+  "fc2_units": 300,
+  "batch_size": 100,
+  "noise_clip": 0.5,
+  "policy_noise": 0.2,
+  "exp_noise": 0.1,
+  "actor_freq": 2,
+  "device": "cuda"
+}
